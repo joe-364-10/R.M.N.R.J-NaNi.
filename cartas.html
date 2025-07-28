@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartas Para Ti 💌 | 10 Meses Contigo</title>
+    <style>
+        /* PALETA AMARILLA ORIGINAL */
+        :root {
+            --color-primario: #FFC107;
+            --color-secundario: #FFD54F;
+            --color-terciario: #FFE082;
+            --color-texto: #5D4037;
+            --color-fondo: #FFF8E1;
+            --color-botones: #FFCA28;
+            --color-hover: #FFA000;
+            --color-borde: #FFB300;
+            --color-carta: rgba(255, 255, 255, 0.9);
+        }
+
+        /* ESTILOS GENERALES */
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: var(--color-fondo);
+            margin: 0;
+            padding: 0;
+            color: var(--color-texto);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            background-color: var(--color-secundario);
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .sidebar h2 {
+            color: var(--color-texto);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        /* BOTONES DE CARTA */
+        .letter-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: var(--color-terciario);
+            border: none;
+            border-left: 5px solid var(--color-borde);
+            color: var(--color-texto);
+            font-size: 1.1em;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .letter-button:hover {
+            background-color: var(--color-botones);
+            transform: translateX(5px) scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            position: relative;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            color: var(--color-primario);
+            font-family: 'Georgia', serif;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(-1deg);
+            }
+
+            25% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateY(-15px) rotate(1deg);
+            }
+        }
+
+        /* CONTADOR DE TIEMPO */
+        .time-counter {
+            font-size: 1.5em;
+            color: white;
+            margin: 15px auto;
+            font-family: 'Arial', sans-serif;
+            background-color: rgba(255, 193, 7, 0.85);
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: float 7s ease-in-out infinite;
+            backdrop-filter: blur(3px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .time-counter span {
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* MENSAJE INICIAL */
+        .welcome-message {
+            text-align: center;
+            font-size: 1.5em;
+            color: var(--color-texto);
+            margin-top: 50px;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* CARTAS */
+        .letter-content {
+            display: none;
+            padding: 40px;
+            background-color: var(--color-carta);
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            max-width: 700px;
+            line-height: 1.8;
+            font-size: 1.1em;
+            position: relative;
+            animation: fadeInUp 0.8s ease;
+            border-top: 5px solid var(--color-borde);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .letter-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            opacity: 0.2;
+            pointer-events: none;
+            border-radius: 5px;
+        }
+
+        /* BOTÓN REGRESAR CON EFECTO DE ESCALA */
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .back-button a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 12px 25px;
+            background-color: var(--color-botones);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        .back-button a:hover {
+            background-color: var(--color-hover);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* COLLAGE DE FOTOS */
+        .collage-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.7;
+            transition: opacity 0.5s ease;
+        }
+
+        .collage-container.carta-seleccionada {
+            opacity: 0.2;
+        }
+
+        .collage-img {
+            position: absolute;
+            max-width: 220px;
+            max-height: 220px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.7s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            object-fit: cover;
+            filter: brightness(0.95) sepia(0.2) hue-rotate(5deg) saturate(1.1);
+        }
+
+        .collage-img.visible {
+            opacity: 0.8;
+            transform: scale(1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>Mis Cartas 💌</h2>
+        <button class="letter-button" onclick="showLetter(0)">🌹 MI CARTA 1</button>
+        <button class="letter-button" onclick="showLetter(1)">💘 MI CARTA 2</button>
+        <button class="letter-button" onclick="showLetter(2)">🧠 MI CARTA 3</button>
+        <button class="letter-button" onclick="showLetter(3)">🥳 MI CARTA 4</button>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Cartas Para Ti</h1>
+            <div class="time-counter" id="timeCounter">
+                <span id="months">0</span> meses
+                <span id="days">0</span> días
+                <span id="hours">0</span> horas juntos
+            </div>
+        </div>
+
+        <div class="welcome-message" id="welcomeMessage">
+            Selecciona una carta
+        </div>
+
+        <div id="letter0" class="letter-content">
+            <h2>🌹 Mi Amor</h2>
+            <p>No puedo creer que ya hayan pasado 10 meses desde que empezamos a ser noviecitos 🥺. Aun recuerdo muy
+                bien cuando salimos a dar la vuelta por primera vez fuera de la escuela. ¿Te acuerdas? cuando fuimos a
+                plaza del valle jajajajaja recuerdo que cuando llegue te dije que me dijeras un número y que de eso
+                depende el lugar al que iríamos pero si te soy sincero las tres opciones eran ir al mismo lugar lo único
+                que cambiaba era lo que íbamos a hacer juntos ahí jajajajaja perdón pero realmente no sabia que hacer lo
+                unico que sabia era que quería estar contigo 🥺👉👈.</p>
+            <p>Estos meses han estado llenos de momentos que jamás voy a olvidar, pero ¿sabes qué es lo que más me gusta
+                de nosotros? Esos planes que salen de la nada, cuando decidimos hacer algo completamente espontáneo y
+                tonto como no hacer nada por ejemplo jajajaja, o cuando decidimos ver alguna peli en la escuela que por
+                cierto nunca hemos podido terminar una completa siempre las dejamos a medias, tambien cunado salimos a
+                caminar sin rumbo al centro para al final terminar comiendo un tostiesquite jajajaja, en general
+                disfruto todos los momentos a tu lado mi amor, lo unico que quiero siempre es verte feliz, amo cuando
+                estamos riendonos como lokos por cualquier cosita, cuando te entran tus ataques de hiperactividad y
+                haces tu voz de niña chiquita y tu carita de ternura toda bonita, quisiera verte asi siempre y que nunca
+                sufras por nada.</p>
+            <p>En base a lo anterior tengo que decirte que hay algo en ti que admiro demasiado y me deja sin palabras
+                todos los días y es tu capacidad de levantarte sin importar lo que esté pasando. He visto cómo incluso
+                en los momentos más difíciles, siempre tratas de dar tu mejor versión, especialmente conmigo. Esa
+                fortaleza tuya es algo que admiro profundamente, y me hace amarte aún más, gracias por ser así conmigo
+                siempre.</p>
+            <p>No voy a mentirte amorcito, mi vida cambió completamente desde que llegaste. Me convertiste en una
+                persona más centrada, me ayudaste a dejar atrás cosas que no me hacían bien, y ahora no puedo imaginar
+                mi día a día sin pensar en ti. Es como si todo girara en torno a ti, a nosotros y a todo lo que estamos
+                construyendo juntos.</p>
+            <p>No se como terminar esto jajajaja, es algo que me tarde dias escribiendo debido a que quería que quedara
+                muy claro y tenía que ordenar bien mis ideas pero al final creo que quedo peor de cómo habría podido
+                quedar si lo escribiera de uno solo jajaja tu entiendes 😔. Bueno estos 10 meses contigo han sido
+                increíbles, pero siento que apenas estamos empezando. Quiero seguir descubriendo cosas nuevas contigo,
+                seguir riéndome a tu lado de todo y todos, seguir siendo el único al que le permiten ser completamente
+                auténtico y seguir estando para ti siempre.</p>
+            <p>Gracias por estos meses maravillosos, mi amor. Gracias por ser tú.</p>
+            <p>Con todo mi amor tu amorcito 💙.</p>
+        </div>
+
+        <div id="letter1" class="letter-content">
+            <h2>💘 Amorcito</h2>
+            <p>💌 Esto es solamente para decirte: </p>
+            <p>💙 Que te amo mucho, mucho, mucho pero en serio mucho</p>
+            <p>🥰 Que estoy muy enamorado de ti</p>
+            <p>😊 Para decirte lo feliz que he sido al estar contigo</p>
+            <p>😍 Que me encantas</p>
+            <p>💗 Que me gustas demasiado</p>
+            <p>🌟 Que me encantas </p>
+            <p>💖 Me fascinas</p>
+            <p>🤯 Estoy loco por ti</p>
+            <p>🧠💭 Te pienso en todo momento</p>
+            <p>🌍 Eres todo para mi</p>
+            <p>💞 Todo de ti me encanta</p>
+            <p>👑 Eres mi persona favorita</p>
+            <p>🔥 Me enloqueces</p>
+            <p>🤤 Eres mi adicción</p>
+            <p>📣💙 QUE TE AMOOOOOOO0OOOOOO 💙</p>
+
+
+        </div>
+
+        <div id="letter2" class="letter-content">
+            <h2>🧠 Lecciones de Amor</h2>
+            <p>Bueno en esta parte te escribire algo que vi y que me hizo senntirte y pensarte en cada
+                momento mientras lo leia, que sepas que todas y cada una de las siguientes palabras me hicieron pensarte
+                y tenerte presente en todo momento</p>
+            <p><i>"Me gustaría regalarte el cielo y las estrellas, tatuar tu sonrisa en todas las galaxias o incluso
+                    dedicarte mi vida entera. Me gustaria darte todo, pero por ahora lo único que quiero de ti es tu
+                    compañia. Por ahora me conformo con el sonido de tu sonrisa; tenerte a centimetros, correr y bailar
+                    por
+                    las calles de un viejo pueblito. No deseo atraparte en el tiempo, pero queiro que seas eternidad en
+                    cada
+                    uno de mis latidos."</i></p>
+            <p style="text-align: right;">J. Wailen</p>
+        </div>
+
+        <div id="letter3" class="letter-content">
+            <h2>🥳 ¿Como paso?</h2>
+            <p>Bueno amor....</p>
+            <p>29 de junio de 2025</p>
+            <p>Holiiiiii, pues la verdad no se como salga esto, acá pienso escribir lo que es como un tipo de blog
+                diario que al final no se si lo incluire, o no se como lo pondre bueno si estas leyendo esto es porque
+                si lo puseeee, no se como lo pondre aun pero aja. Acá pienso escribir mi día a día tratando de realizar
+                esto empezando el día 29 de junio jajajajaja.
+                Esto lo inicie el 29 de junio pero ya es algo que venia pensando desde hace un tiempo y la idea era
+                hacerlo para cuando cumplieramos 6 mesessss, pero pues por cuestiones de tiempo y organizaciones mias
+                pues ya no se pudo, incluso ni si quiera empece algo solamente hice como un pequeño borrador en mi
+                cabeza y lo que inicialmente estaba en mi cabeza era acerte una aplicacion oara celular debido a que
+                anteriormente ya tenia un poco de idea acerca del entorno de desarrollo de aplicaciones android y era
+                algo que queria aprender y me imagine que esmerandome en acer algo para ti me iba a enfocar a aprenderlo
+                realmente, lo estuve pensando demasiado de como hacerlo que ponerlo la estructura que debia de llevar y
+                asi, pero mientras pensaba me encontre con un gran problemaaaaaaaaa y siii, es que tu no utilizados
+                android jajajaja era algo que por la emoción no habia tomado en cuenta entonces busque como hacer algo
+                para iphone o si era facil o complicado y asi, pero al final investigando un poco vi que seria un poco
+                mas de trabajo y era lgo que totalmente desconocia asi que por eso lo deje por la paz en ese entonces
+                pero aun asi sabia que te haria algo relacionado a lo tuyo en algun momento, y precisamente hoy que te
+                escribo esta parte del incio quiero que sepas que vi unos videos para recordar un poco la logica de todo
+                esto y claro quiero que sepas que la ia fue mi mejor aliado en estooooo, yo puse las ideas y chatcito lo
+                hizo realidad jajajajajajaja, bueno le meti demasiada mano quiero que sepas, y por ahorita solamente
+                hice una idea de como me gustaria que este organizado aunque al final no se como salga y si saldra bien
+                o como lo hare, pero de que hare algo hare algo, y si la idea es incluir lo que hice y vivi para
+                realizar esto como un blog decia y es parte de la idea principal incluirlo de alguna manera.
+            </p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>12 de julio</p>
+            <p>JAJAJAJAJA despues de un tiempo volvi con actualizaciones y es que al final decidí ya no incluir el blog
+                no supe cómo implementarlo y es algo en lo que me llevaría demasiado tiempo yo creo también otra de las
+                razones es que ya no tome “evidencias” de cómo va esto, quería hacer como un tipo reporte yo creo y la
+                verdad era complicado ir pensando y haciendo los cambios e irlo implementando aca asi que esto si lo
+                incluire pero solamente como un texto. Ha y la verdad esto como va no me a gustandoooo, lo veo muy
+                simple y es que ahorita estoy haciendo solamente el cascarón para posteriormente meterle el relleno y
+                seguiré trabajando en eso si no veo una mejora en estos días, yo creo que esto se cancelara y tendré que
+                posponerlo una vez más, pero yo creo que ahorita que son vacaciones debo aprovechar, hay no se ni que
+                hacer la verdad, no se como organizarlo ni que poner, tenia planeado que fueran por secciones pero
+                haaaaaa, que complicado ni para mis trabajos de la escuela pienso tanto yo creo.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>18 de julio</p>
+            <p>Ya regrese acaaaaaa, esto lo estoy escribiendo en mi cel asi que ya me acosté en mi cama a redactar lo
+                que hice hoy, y es que hoy por fin creo que ya encontre una forma de como presentarlo, mas bien dicho ya
+                tenia las diferentes secciones que tenía pensadas, lo que no sabía era cómo implementarlo para que tu
+                pudieras acceder a ellas y yo creo que lo pondré de la manera más simple pero estética posible, igual te
+                lo pienso dar el dia que cumplamos 10 meses mi amor asi que debo de apresurarme un poco yo creo porque
+                aun me faltan hacer dos secciones de 7 que tengo planeadas y también ajustar detallitossssssss, así que
+                te seguiré contando.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>22 de julio</p>
+            <p>Hoy le trate de avanzar lo mas que pude debido a que te lo queria entregar mañana, bueno en teoria hoy
+                incluso me meti tanto en esto que ya no te escribi mas tarde pero es que en mi cabeza pensaba que si me
+                etia de lleno si lo sacaba pero al final decidi que fueran solo 4 secciones para poder acomodarlas bien
+                me imagino que ya las viste si es que ya estas leyendo esto y es que esas ya estan echas pero esto se
+                sigue viendo muy simpleeeee, asi que si me tomo otro dia yo creo que lo puedo mejorar aunque se pase del
+                dia de nuestra fecha es algo que te puedo dar cualquier otro dia pero que sepas que la idea es dartelo
+                en nuestro decimo mes, bueno igual y quiero que hagas de cuenta que si te lo di, si es que si te lo
+                llego a dar porque otra de las cosas que me puse a pensar es el como te lo entregare, si de forma local,
+                te lo dare en una usb lo subire a algo no seeeeeeee, si al final no me gusta pues ya borro todo y bay lo
+                bueno es que ni te enteraste y asi, jajajajajajajajajaja estoy loko creo porque al final estas palabras
+                quedaran solo para mi, ay no.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>25 de julio</p>
+            <p>Lo abandone por estos días amoreeee, pero ya regrese y hoy me inspire pienso dartelo la próxima vez que
+                te vea debido a que solo falta afinar unas cosas y pensar bien una que otra y me lo hare en estos días
+                que no tengo nada que hacer, en mi cabeza ya pensé como quiero que este todo y lo que tengo que mover y
+                asi, ahorita apenas abrire el archivo para empezar a modificarlo así que no se como salga pero quiero
+                que tengas la certeza de que el lunes te lo entrego.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>27 de julio</p>
+            <p>Mañanaaaaaa, bueno en teoria ya en un rato, y es que al final lo volví a modificar e implemente algunas
+                cosas y le quite otras si te soy muy sincero quedó de una forma que en un inicio no había pensado y que
+                se fue dando conforme lo hacía y una que otra recomendación, pero yo ya hice el compromiso de que mañana
+                te lo entrego asi que espero que te gusteeeeee, igual ya pense en como le voy hacer para entregartelo y
+                todo, en teoria ya esta todo listo para que tu lo abras. Bueno a menos de que mañana despierte yo y me
+                acuerde de algo o se presente algo que quisiera implementar pero eso también lo dudo mucho debido a que
+                en la forma en que te lo dare me da libertad de irle haciendo actualizaciones y mejoras si es que sale
+                algo pero por mientras tu ya podrás acceder a algo.</p>
+            <p> Y a jajajajajaja esto lo incluire como un extraaaaaa, la verdad ya no se si tiene sentido o que onda ni
+                la ortografia ni nada lo escribí casi durmiendo pero creo que estaría cool que lo leas tu tambien
+                jajajajajajaja.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>Bueno mi amor quiero que sepas que esto lo hice con todo mi cariño y amor, me esmere en hacer algo
+                porque, bueno no se si te lo he dicho pero para mi tiene mas valor y significado en tomarme el tiempo de
+                realizarte un detalle realizado con mis manos y pienso que es una bonita forma de demostrarte mi amor,
+                espero que te guste y si no, no digas nada, bye.</p>
+        </div>
+
+    </div>
+
+    <!-- BOTÓN REGRESAR CON EFECTO DE ESCALA -->
+    <div class="back-button">
+        <a href="index.html">✉️ Cerrar el sobre</a>
+    </div>
+
+    <!-- COLLAGE DE FOTOS -->
+    <div class="collage-container" id="collage-container"></div>
+
+    <script>
+        // Contador de tiempo juntos (VERSIÓN CORREGIDA)
+        function updateTimeTogether() {
+            const startDate = new Date('2024-09-23T00:00:00'); // Fecha específica con hora
+            const now = new Date();
+
+            // Diferencia total en milisegundos
+            const diff = now - startDate;
+
+            // Calcular años y meses de forma más precisa
+            let months = (now.getFullYear() - startDate.getFullYear()) * 12;
+            months += now.getMonth() - startDate.getMonth();
+
+            // Ajustar si el día actual es menor que el día de inicio
+            if (now.getDate() < startDate.getDate()) {
+                months--;
+            }
+
+            // Calcular días restantes
+            const tempDate = new Date(startDate);
+            tempDate.setMonth(tempDate.getMonth() + months);
+
+            let days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+
+            // Si los días son negativos (por ajuste de meses)
+            if (days < 0) {
+                months--;
+                tempDate.setMonth(tempDate.getMonth() - 1);
+                days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+            }
+
+            // Calcular horas restantes
+            const hours = Math.floor((now - tempDate - days * 24 * 60 * 60 * 1000) / (1000 * 60 * 60));
+
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+        }
+
+        updateTimeTogether();
+        setInterval(updateTimeTogether, 3600000); // Actualizar cada hora
+
+        // MOSTRAR/OCULTAR CARTAS
+        function showLetter(index) {
+            document.getElementById('welcomeMessage').style.display = 'none';
+            document.getElementById('collage-container').classList.add('carta-seleccionada');
+
+            document.querySelectorAll('.letter-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            document.getElementById(`letter${index}`).style.display = 'block';
+
+            // Resaltar botón activo
+            document.querySelectorAll('.letter-button').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        // COLLAGE DE FOTOS
+        const imagenes = [
+            "assets/foto11.jpg",
+            "assets/foto12.jpg",
+            "assets/foto13.jpg",
+            "assets/foto14.jpg",
+            "assets/foto15.jpg",
+            "assets/foto16.jpg",
+            "assets/foto17.jpg",
+            "assets/foto18.jpg",
+            "assets/foto19.jpg",
+            "assets/foto20.jpg",
+            "assets/foto41.jpg"
+        ];
+        const container = document.getElementById('collage-container');
+        let currentImages = 0;
+
+        function createImage() {
+            if (currentImages >= 8) return;
+
+            const img = document.createElement('img');
+            img.className = 'collage-img';
+            img.src = imagenes[Math.floor(Math.random() * imagenes.length)];
+
+            const left = Math.random() * 80;
+            const top = Math.random() * 80;
+            const size = 150 + Math.random() * 100;
+
+            img.style.left = `${left}vw`;
+            img.style.top = `${top}vh`;
+            img.style.width = `${size}px`;
+
+            container.appendChild(img);
+            currentImages++;
+
+            setTimeout(() => img.classList.add('visible'), 50);
+            setTimeout(() => {
+                img.classList.remove('visible');
+                setTimeout(() => {
+                    container.removeChild(img);
+                    currentImages--;
+                    createImage();
+                }, 1000);
+            }, 20000 + Math.random() * 10000);
+        }
+
+        // INICIAR COLLAGE
+        for (let i = 0; i < 5; i++) createImage();
+        setInterval(() => { if (currentImages < 8) createImage(); }, 3000);
+    </script>
+</body>
+
+</html>

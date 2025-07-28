@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canciones Para Ti</title>
+</head>
+
+<body>
+
+    <style>
+        :root {
+            --color-primario: #2196F3;
+            --color-secundario: #64B5F6;
+            --color-terciario: #90CAF9;
+            --color-texto: #0D47A1;
+            --color-fondo: #E3F2FD;
+            --color-botones: #42A5F5;
+            --color-hover: #1976D2;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            background-color: var(--color-fondo);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--color-texto);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-family: 'Arial', sans-serif;
+            padding: 10px 20px;
+            background-color: var(--color-botones);
+            border-radius: 15px;
+            transition: all 0.5s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            background-color: var(--color-hover);
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        header.inicio {
+            text-align: center;
+            padding: 1rem;
+            background-color: transparent;
+            position: relative;
+            z-index: 20;
+            margin-top: 40px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(-1deg);
+            }
+
+            25% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateY(-15px) rotate(1deg);
+            }
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.05);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.03);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .inicio h1 {
+            font-size: 3em;
+            color: var(--color-primario);
+            font-family: 'Georgia', serif;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-counter {
+            font-size: 1.5em;
+            color: white;
+            margin: 15px auto;
+            font-family: 'Arial', sans-serif;
+            background-color: rgba(33, 150, 243, 0.85);
+            padding: 12px 20px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: float 7s ease-in-out infinite;
+            backdrop-filter: blur(3px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .time-counter span {
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .songs-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .songs-title {
+            text-align: center;
+            color: var(--color-primario);
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .songs-list {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .song-item {
+            margin: 25px 0;
+            padding: 20px;
+            background-color: var(--color-terciario);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--color-primario);
+        }
+
+        .song-item:hover {
+            transform: translateX(5px);
+            background-color: var(--color-secundario);
+        }
+
+        .song-text {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .spotify-embed {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        /* Efectos para el collage de fondo */
+        .collage-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.50;
+        }
+
+        .collage-img {
+            position: absolute;
+            max-width: 250px;
+            max-height: 250px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+            opacity: 0;
+            transform: scale(0.8);
+            object-fit: cover;
+            filter: brightness(0.8) sepia(30%) hue-rotate(190deg) saturate(0.8);
+        }
+
+        .collage-img.visible {
+            opacity: 0.8;
+            transform: scale(1);
+        }
+    </style>
+
+    <a href="index.html" class="back-button">🎶 Silenciar melodia</a>
+
+    <header class="inicio">
+        <h1>Canciones Para Ti</h1>
+        <div class="time-counter" id="timeCounter">
+            <span id="months">0</span> meses
+            <span id="days">0</span> días
+            <span id="hours">0</span> horas juntos
+        </div>
+    </header>
+
+    <div class="songs-container">
+        <h2 class="songs-title">🎵 Canciones que me hacen pensarte</h2>
+
+        <div class="songs-list">
+            <!-- Canción 1 -->
+            <div class="song-item">
+                <div class="song-text">
+                    Esta cancion la elegi simplemente porque me siento amado por ti por como soy y porque yo te amo tal
+                    y como tu eres, porque nuestro amor no pide perfección si no simplemente complicidad entre nosotros.
+                    <p>Gracias por aceptar mis defectos y mis lokuras, por aceptarme tal y como soy, contigo siento que
+                        soy la mejor version de mi.</p>
+                </div>
+                <iframe class="spotify-embed"
+                    src="https://open.spotify.com/embed/track/00kIWJu9IHiQ6i0qJAU0Z9?si=4e979ca185874016" width="100%"
+                    height="80" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+            </div>
+
+            <!-- Canción 2 -->
+            <div class="song-item">
+                <div class="song-text">
+                    Simplemente porque eres mi persona favorita, porque no importa el dia, lugar o plan, si es contigo
+                    todo es perfecto.
+                </div>
+                <iframe class="spotify-embed"
+                    src="https://open.spotify.com/embed/track/70fVcEP5pRrxaIICY3DcPe?si=c7aacfe6b24c4023" width="100%"
+                    height="80" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+            </div>
+
+            <!-- Canción 3 -->
+            <div class="song-item">
+                <div class="song-text">
+                    Aunque esta canción sineto que habla mas de una despedida o algo por el estilo, yo te quiero dedicar
+                    esta canción para que tu la tomes como una promesa, que seras el amor de mi vida por siempre y para
+                    siempre.
+                    <p>Te amo💙</p>
+                </div>
+                <iframe class="spotify-embed"
+                    src="https://open.spotify.com/embed/track/3LoNDgFKiaFYSyzhNESwo3?si=de5f45862cc84f49" width="100%"
+                    height="80" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+            </div>
+
+            <!-- Canción 4 -->
+            <div class="song-item">
+                <div class="song-text">
+                    No se porque pero siento que esta canción, me hace sentirme demasiado comprometido contigo, porque
+                    siento que contigo el amor no es un juego y tengo que dar y darte todo de mi para enamorarte cada
+                    vez mas así como tu lo hiciste cuando menos lo esperaba.
+                </div>
+                <iframe class="spotify-embed"
+                    src="https://open.spotify.com/embed/track/4PHX6bpHDxiR9RGzAKWcyk?si=e53e72e899b84fc4" width="100%"
+                    height="80" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+            </div>
+
+            <!-- Canción 5 -->
+            <div class="song-item">
+                <div class="song-text">
+                    Esta ultima es porque siento que tenemos una conexión emocional muy fuerte y que a veces solo te
+                    miro y ya se lo que piensas o quieres.
+                    <p>Otra razón es porque tambien siento que refleja muy bien nuestra situación intima, que cuando
+                        estamos a kilometros nos pensamos el uno al otro y hacemos el amor por telepatia y por otro lado
+                        cuando estamos juntos nos ponemos loños y nos volamos la mente. </p>
+                </div>
+                <iframe class="spotify-embed"
+                    src="https://open.spotify.com/embed/track/6tDDoYIxWvMLTdKpjFkc1B?si=0fe28ede8d0f473b" width="100%"
+                    height="80" frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="collage-container" id="collage-container"></div>
+
+    <script>
+        // Contador de tiempo juntos (VERSIÓN CORREGIDA)
+        function updateTimeTogether() {
+            const startDate = new Date('2024-09-23T00:00:00'); // Fecha específica con hora
+            const now = new Date();
+
+            // Diferencia total en milisegundos
+            const diff = now - startDate;
+
+            // Calcular años y meses de forma más precisa
+            let months = (now.getFullYear() - startDate.getFullYear()) * 12;
+            months += now.getMonth() - startDate.getMonth();
+
+            // Ajustar si el día actual es menor que el día de inicio
+            if (now.getDate() < startDate.getDate()) {
+                months--;
+            }
+
+            // Calcular días restantes
+            const tempDate = new Date(startDate);
+            tempDate.setMonth(tempDate.getMonth() + months);
+
+            let days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+
+            // Si los días son negativos (por ajuste de meses)
+            if (days < 0) {
+                months--;
+                tempDate.setMonth(tempDate.getMonth() - 1);
+                days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+            }
+
+            // Calcular horas restantes
+            const hours = Math.floor((now - tempDate - days * 24 * 60 * 60 * 1000) / (1000 * 60 * 60));
+
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+        }
+
+        updateTimeTogether();
+        setInterval(updateTimeTogether, 3600000); // Actualizar cada hora
+
+        // Collage de imágenes de fondo (discreto)
+        const imagenes = [
+            "assets/foto21.jpg",
+            "assets/foto22.jpg",
+            "assets/foto23.jpg",
+            "assets/foto24.jpg",
+            "assets/foto25.jpg",
+            "assets/foto26.jpg",
+            "assets/foto27.jpg",
+            "assets/foto28.jpg",
+            "assets/foto29.jpg",
+            "assets/foto30.jpg",
+            "assets/foto41.jpg"
+        ];
+
+        const container = document.getElementById('collage-container');
+        const maxImages = 6;
+        let currentImages = 0;
+
+        function getRandomPosition() {
+            const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+            const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+            const left = Math.random() * (vw - 250);
+            const top = Math.random() * (vh - 250);
+
+            const size = 150 + Math.random() * 100;
+            const rotation = -15 + Math.random() * 30;
+
+            return { left, top, size, rotation };
+        }
+
+        function createImage() {
+            if (currentImages >= maxImages) return;
+
+            const img = document.createElement('img');
+            img.className = 'collage-img';
+            img.src = imagenes[Math.floor(Math.random() * imagenes.length)];
+
+            const position = getRandomPosition();
+            img.style.left = `${position.left}px`;
+            img.style.top = `${position.top}px`;
+            img.style.width = `${position.size}px`;
+            img.style.height = `${position.size}px`;
+            img.style.transform = `rotate(${position.rotation}deg) scale(0.8)`;
+
+            container.appendChild(img);
+            currentImages++;
+
+            setTimeout(() => {
+                img.classList.add('visible');
+            }, 50);
+
+            setTimeout(() => {
+                img.classList.remove('visible');
+                setTimeout(() => {
+                    container.removeChild(img);
+                    currentImages--;
+                    createImage();
+                }, 1000);
+            }, 25000 + Math.random() * 15000);
+        }
+
+        function startCollage() {
+            for (let i = 0; i < 3; i++) {
+                createImage();
+            }
+
+            setInterval(() => {
+                if (currentImages < maxImages) {
+                    createImage();
+                }
+            }, 4000);
+        }
+
+        document.addEventListener('DOMContentLoaded', startCollage);
+    </script>
+</body>
+
+</html>

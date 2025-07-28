@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10 Meses Contigo 💖</title>
+</head>
+
+<body>
+
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            background-color: #C7A8CC;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header.inicio {
+            text-align: center;
+            padding: 1rem;
+            background-color: transparent;
+            position: relative;
+            z-index: 20;
+            margin-top: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(-1deg);
+            }
+
+            25% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateY(-15px) rotate(1deg);
+            }
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.05);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.03);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+            padding: 5px 0;
+            background-color: #FFDAC1;
+            position: relative;
+            z-index: 30;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #5E5E5E;
+            font-size: 22px;
+            font-family: 'Arial', sans-serif;
+            padding: 10px 50px;
+            background-color: #FFB6C1;
+            border-radius: 15px;
+            transition: all 0.5s ease;
+        }
+
+        .nav a:hover {
+            background-color: #C7A8CC;
+            color: #FFB6C1;
+            transform: scale(1.25);
+            animation: heartbeat 1s;
+        }
+
+        .inicio h1 {
+            font-size: 4em;
+            color: #FFB6C1;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: heartbeat 3s infinite;
+        }
+
+        .time-counter {
+            font-size: 1.8em;
+            color: #5E5E5E;
+            margin: 20px auto;
+            font-family: 'Arial', sans-serif;
+            background-color: rgba(255, 214, 193, 0.85);
+            padding: 15px 25px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: float 7s ease-in-out infinite;
+            backdrop-filter: blur(3px);
+            border: 2px solid rgba(255, 182, 193, 0.5);
+        }
+
+        .time-counter span {
+            font-weight: bold;
+            color: #FF00FF;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .inicio p {
+            font-size: 1.5em;
+            color: #333333;
+            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .main-content {
+            flex: 1;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 20px;
+        }
+
+        .collage-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .collage-img {
+            position: absolute;
+            max-width: 350px;
+            max-height: 350px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+            opacity: 0;
+            transform: scale(0.8);
+            object-fit: cover;
+            filter: brightness(0.9);
+        }
+
+        .collage-img.visible {
+            opacity: 0.85;
+            transform: scale(1);
+        }
+
+        footer {
+            text-align: center;
+            background-color: #FFDAC1;
+            padding: 1.5rem;
+            position: relative;
+            z-index: 30;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
+    <nav class="nav">
+        <a href="cartas.html">💌 Carta</a>
+        <a href="canciones.html">🎵 Canciones</a>
+        <a href="recuerdos.html">🖼️ Recuerdos</a>
+        <a href="metas.html">🎯 Metas</a>
+
+    </nav>
+
+    <div class="main-content">
+        <header class="inicio">
+            <h1>10 Meses Contigo 💖</h1>
+            <div class="time-counter" id="timeCounter">
+                <span id="months">0</span> meses
+                <span id="days">0</span> días
+                <span id="hours">0</span> horas juntos
+            </div>
+        </header>
+    </div>
+
+    <div class="collage-container" id="collage-container"></div>
+
+    <footer>
+        <p>Hecho con amor por Joel 💙</p>
+    </footer>
+
+    <script>
+        function updateTimeTogether() {
+            const startDate = new Date('2024-09-23T00:00:00');
+            const now = new Date();
+
+            const diff = now - startDate;
+
+            let months = (now.getFullYear() - startDate.getFullYear()) * 12;
+            months += now.getMonth() - startDate.getMonth();
+
+            if (now.getDate() < startDate.getDate()) {
+                months--;
+            }
+
+            const tempDate = new Date(startDate);
+            tempDate.setMonth(tempDate.getMonth() + months);
+
+            let days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+
+            if (days < 0) {
+                months--;
+                tempDate.setMonth(tempDate.getMonth() - 1);
+                days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+            }
+
+            const hours = Math.floor((now - tempDate - days * 24 * 60 * 60 * 1000) / (1000 * 60 * 60));
+
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+        }
+
+        updateTimeTogether();
+        setInterval(updateTimeTogether, 3600000);
+
+        const imagenes = [
+            "assets/foto1.jpg",
+            "assets/foto2.jpg",
+            "assets/foto3.jpg",
+            "assets/foto4.jpg",
+            "assets/foto5.jpg",
+            "assets/foto6.jpg",
+            "assets/foto7.jpg",
+            "assets/foto8.jpg",
+            "assets/foto9.jpg",
+            "assets/foto10.jpg",
+            "assets/foto41.jpg"
+        ];
+
+        const container = document.getElementById('collage-container');
+        const maxImages = 8;
+        let currentImages = 0;
+
+        function getRandomPosition() {
+            const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+            const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+            const avoidAreas = [
+                { x1: 0, y1: 0, x2: vw, y2: 70 },
+                { x1: 0, y1: vh - 80, x2: vw, y2: vh }
+            ];
+
+            let left, top;
+            let isValidPosition = false;
+            let attempts = 0;
+
+            while (!isValidPosition && attempts < 100) {
+                left = Math.random() * (vw - 350);
+                top = Math.random() * (vh - 350);
+
+                isValidPosition = true;
+
+                for (const area of avoidAreas) {
+                    if (left + 350 > area.x1 && left < area.x2 &&
+                        top + 350 > area.y1 && top < area.y2) {
+                        isValidPosition = false;
+                        break;
+                    }
+                }
+
+                attempts++;
+            }
+
+            const size = 200 + Math.random() * 150;
+            const rotation = -15 + Math.random() * 30;
+
+            return { left, top, size, rotation };
+        }
+
+        function createImage() {
+            if (currentImages >= maxImages) return;
+
+            const img = document.createElement('img');
+            img.className = 'collage-img';
+            img.src = imagenes[Math.floor(Math.random() * imagenes.length)];
+
+            const position = getRandomPosition();
+            img.style.left = `${position.left}px`;
+            img.style.top = `${position.top}px`;
+            img.style.width = `${position.size}px`;
+            img.style.height = `${position.size}px`;
+            img.style.transform = `rotate(${position.rotation}deg) scale(0.8)`;
+
+            container.appendChild(img);
+            currentImages++;
+
+            setTimeout(() => {
+                img.classList.add('visible');
+            }, 50);
+
+            setTimeout(() => {
+                img.classList.remove('visible');
+                setTimeout(() => {
+                    container.removeChild(img);
+                    currentImages--;
+                    createImage();
+                }, 1000);
+            }, 20000 + Math.random() * 10000);
+        }
+
+        function startCollage() {
+            for (let i = 0; i < 5; i++) {
+                createImage();
+            }
+
+            setInterval(() => {
+                if (currentImages < maxImages) {
+                    createImage();
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', startCollage);
+
+        window.addEventListener('resize', () => {
+            const images = document.querySelectorAll('.collage-img');
+            images.forEach(img => {
+                const position = getRandomPosition();
+                img.style.left = `${position.left}px`;
+                img.style.top = `${position.top}px`;
+            });
+        });
+    </script>
+
+</body>
+
+</html>
