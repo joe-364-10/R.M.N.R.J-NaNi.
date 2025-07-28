@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuerdos 📸 | 10 Meses Contigo</title>
     <style>
-        /* PALETA CAFÉ VINTAGE */
         :root {
             --color-primario: #8B4513;
             --color-secundario: #D2B48C;
@@ -19,7 +18,6 @@
             --color-carta: #FAF0E6;
         }
 
-        /* ESTILOS GENERALES */
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
             background-color: var(--color-fondo);
@@ -31,7 +29,6 @@
             min-height: 100vh;
         }
 
-        /* BOTÓN REGRESAR */
         .back-button {
             position: fixed;
             bottom: 20px;
@@ -57,7 +54,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* CONTENIDO PRINCIPAL */
         .main-content {
             flex: 1;
             padding: 30px;
@@ -66,7 +62,6 @@
             align-items: center;
         }
 
-        /* TÍTULO Y CONTADOR */
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -113,7 +108,6 @@
             border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
-        /* GRILLA DE POLAROIDS */
         .polaroid-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -123,7 +117,6 @@
             padding: 0 20px;
         }
 
-        /* ESTILO POLAROID */
         .polaroid {
             background: white;
             padding: 15px 15px 40px 15px;
@@ -159,7 +152,6 @@
             color: var(--color-texto);
         }
 
-        /* LIGHTBOX */
         .polaroid.expanded {
             position: fixed;
             top: 50%;
@@ -203,7 +195,6 @@
             z-index: 999;
         }
 
-        /* COLLAGE DE FONDO */
         .collage-container {
             position: fixed;
             width: 100%;
@@ -235,7 +226,6 @@
 </head>
 
 <body>
-    <!-- CONTENIDO PRINCIPAL -->
     <div class="main-content">
         <div class="header">
             <h1>Recuerdos 📸</h1>
@@ -304,49 +294,40 @@
         </div>
     </div>
 
-    <!-- BOTÓN REGRESAR -->
     <div class="back-button">
         <a href="index.html">🕰️ Un paso al pasado</a>
     </div>
 
-    <!-- OVERLAY PARA LIGHTBOX -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- COLLAGE DE FONDO -->
+
     <div class="collage-container" id="collage-container"></div>
 
     <script>
-        // Contador de tiempo juntos (VERSIÓN CORREGIDA)
         function updateTimeTogether() {
-            const startDate = new Date('2024-09-23T00:00:00'); // Fecha específica con hora
+            const startDate = new Date('2024-09-23T00:00:00');
             const now = new Date();
 
-            // Diferencia total en milisegundos
             const diff = now - startDate;
 
-            // Calcular años y meses de forma más precisa
             let months = (now.getFullYear() - startDate.getFullYear()) * 12;
             months += now.getMonth() - startDate.getMonth();
 
-            // Ajustar si el día actual es menor que el día de inicio
             if (now.getDate() < startDate.getDate()) {
                 months--;
             }
 
-            // Calcular días restantes
             const tempDate = new Date(startDate);
             tempDate.setMonth(tempDate.getMonth() + months);
 
             let days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
 
-            // Si los días son negativos (por ajuste de meses)
             if (days < 0) {
                 months--;
                 tempDate.setMonth(tempDate.getMonth() - 1);
                 days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
             }
 
-            // Calcular horas restantes
             const hours = Math.floor((now - tempDate - days * 24 * 60 * 60 * 1000) / (1000 * 60 * 60));
 
             document.getElementById('months').textContent = months;
@@ -355,9 +336,8 @@
         }
 
         updateTimeTogether();
-        setInterval(updateTimeTogether, 3600000); // Actualizar cada hora
+        setInterval(updateTimeTogether, 3600000);
 
-        // LIGHTBOX PARA POLAROIDS
         document.querySelectorAll('.polaroid').forEach(polaroid => {
             polaroid.addEventListener('click', function (e) {
                 if (this.classList.contains('expanded')) return;
@@ -365,11 +345,10 @@
                 this.classList.add('expanded');
                 document.getElementById('overlay').style.display = 'block';
                 document.body.style.overflow = 'hidden';
-                e.stopPropagation(); // Evitar que el clic se propague al overlay
+                e.stopPropagation();
             });
         });
 
-        // CERRAR LIGHTBOX
         document.getElementById('overlay').addEventListener('click', function () {
             const expanded = document.querySelector('.polaroid.expanded');
             if (expanded) {
@@ -379,7 +358,6 @@
             }
         });
 
-        // COLLAGE DE FOTOS DE FONDO
         const imagenes = [
             "assets/fotoo1.jpg",
             "assets/fotoo2.jpg",

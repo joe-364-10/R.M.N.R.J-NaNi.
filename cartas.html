@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cartas Para Ti 💌 | 10 Meses Contigo</title>
     <style>
-        /* PALETA AMARILLA ORIGINAL */
         :root {
             --color-primario: #FFC107;
             --color-secundario: #FFD54F;
@@ -19,7 +18,6 @@
             --color-carta: rgba(255, 255, 255, 0.9);
         }
 
-        /* ESTILOS GENERALES */
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
             background-color: var(--color-fondo);
@@ -30,7 +28,6 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 250px;
             background-color: var(--color-secundario);
@@ -47,7 +44,6 @@
             font-size: 1.8em;
         }
 
-        /* BOTONES DE CARTA */
         .letter-button {
             display: block;
             width: 100%;
@@ -71,7 +67,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* CONTENIDO PRINCIPAL */
         .main-content {
             flex: 1;
             padding: 30px;
@@ -117,7 +112,6 @@
             }
         }
 
-        /* CONTADOR DE TIEMPO */
         .time-counter {
             font-size: 1.5em;
             color: white;
@@ -139,7 +133,6 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-        /* MENSAJE INICIAL */
         .welcome-message {
             text-align: center;
             font-size: 1.5em;
@@ -158,7 +151,6 @@
             }
         }
 
-        /* CARTAS */
         .letter-content {
             display: none;
             padding: 40px;
@@ -199,7 +191,6 @@
             border-radius: 5px;
         }
 
-        /* BOTÓN REGRESAR CON EFECTO DE ESCALA */
         .back-button {
             position: fixed;
             bottom: 20px;
@@ -225,7 +216,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* COLLAGE DE FOTOS */
         .collage-container {
             position: fixed;
             width: 100%;
@@ -263,7 +253,6 @@
 </head>
 
 <body>
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <h2>Mis Cartas 💌</h2>
         <button class="letter-button" onclick="showLetter(0)">🌹 MI CARTA 1</button>
@@ -272,7 +261,6 @@
         <button class="letter-button" onclick="showLetter(3)">🥳 MI CARTA 4</button>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <div class="main-content">
         <div class="header">
             <h1>Cartas Para Ti</h1>
@@ -462,46 +450,37 @@
 
     </div>
 
-    <!-- BOTÓN REGRESAR CON EFECTO DE ESCALA -->
     <div class="back-button">
         <a href="index.html">✉️ Cerrar el sobre</a>
     </div>
 
-    <!-- COLLAGE DE FOTOS -->
     <div class="collage-container" id="collage-container"></div>
 
     <script>
-        // Contador de tiempo juntos (VERSIÓN CORREGIDA)
         function updateTimeTogether() {
-            const startDate = new Date('2024-09-23T00:00:00'); // Fecha específica con hora
+            const startDate = new Date('2024-09-23T00:00:00');
             const now = new Date();
 
-            // Diferencia total en milisegundos
             const diff = now - startDate;
 
-            // Calcular años y meses de forma más precisa
             let months = (now.getFullYear() - startDate.getFullYear()) * 12;
             months += now.getMonth() - startDate.getMonth();
 
-            // Ajustar si el día actual es menor que el día de inicio
             if (now.getDate() < startDate.getDate()) {
                 months--;
             }
 
-            // Calcular días restantes
             const tempDate = new Date(startDate);
             tempDate.setMonth(tempDate.getMonth() + months);
 
             let days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
 
-            // Si los días son negativos (por ajuste de meses)
             if (days < 0) {
                 months--;
                 tempDate.setMonth(tempDate.getMonth() - 1);
                 days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
             }
 
-            // Calcular horas restantes
             const hours = Math.floor((now - tempDate - days * 24 * 60 * 60 * 1000) / (1000 * 60 * 60));
 
             document.getElementById('months').textContent = months;
@@ -510,9 +489,8 @@
         }
 
         updateTimeTogether();
-        setInterval(updateTimeTogether, 3600000); // Actualizar cada hora
+        setInterval(updateTimeTogether, 3600000);
 
-        // MOSTRAR/OCULTAR CARTAS
         function showLetter(index) {
             document.getElementById('welcomeMessage').style.display = 'none';
             document.getElementById('collage-container').classList.add('carta-seleccionada');
@@ -522,13 +500,11 @@
             });
             document.getElementById(`letter${index}`).style.display = 'block';
 
-            // Resaltar botón activo
             document.querySelectorAll('.letter-button').forEach((btn, i) => {
                 btn.classList.toggle('active', i === index);
             });
         }
 
-        // COLLAGE DE FOTOS
         const imagenes = [
             "assets/foto11.jpg",
             "assets/foto12.jpg",
@@ -574,7 +550,6 @@
             }, 20000 + Math.random() * 10000);
         }
 
-        // INICIAR COLLAGE
         for (let i = 0; i < 5; i++) createImage();
         setInterval(() => { if (currentImages < 8) createImage(); }, 3000);
     </script>

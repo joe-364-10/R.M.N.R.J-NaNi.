@@ -183,7 +183,6 @@
             margin-top: 10px;
         }
 
-        /* Efectos para el collage de fondo */
         .collage-container {
             position: fixed;
             width: 100%;
@@ -229,7 +228,6 @@
         <h2 class="songs-title">🎵 Canciones que me hacen pensarte</h2>
 
         <div class="songs-list">
-            <!-- Canción 1 -->
             <div class="song-item">
                 <div class="song-text">
                     Esta cancion la elegi simplemente porque me siento amado por ti por como soy y porque yo te amo tal
@@ -244,7 +242,6 @@
                     loading="lazy"></iframe>
             </div>
 
-            <!-- Canción 2 -->
             <div class="song-item">
                 <div class="song-text">
                     Simplemente porque eres mi persona favorita, porque no importa el dia, lugar o plan, si es contigo
@@ -257,7 +254,6 @@
                     loading="lazy"></iframe>
             </div>
 
-            <!-- Canción 3 -->
             <div class="song-item">
                 <div class="song-text">
                     Aunque esta canción sineto que habla mas de una despedida o algo por el estilo, yo te quiero dedicar
@@ -272,7 +268,6 @@
                     loading="lazy"></iframe>
             </div>
 
-            <!-- Canción 4 -->
             <div class="song-item">
                 <div class="song-text">
                     No se porque pero siento que esta canción, me hace sentirme demasiado comprometido contigo, porque
@@ -286,7 +281,6 @@
                     loading="lazy"></iframe>
             </div>
 
-            <!-- Canción 5 -->
             <div class="song-item">
                 <div class="song-text">
                     Esta ultima es porque siento que tenemos una conexión emocional muy fuerte y que a veces solo te
@@ -309,37 +303,30 @@
     <div class="collage-container" id="collage-container"></div>
 
     <script>
-        // Contador de tiempo juntos (VERSIÓN CORREGIDA)
         function updateTimeTogether() {
-            const startDate = new Date('2024-09-23T00:00:00'); // Fecha específica con hora
+            const startDate = new Date('2024-09-23T00:00:00');
             const now = new Date();
 
-            // Diferencia total en milisegundos
             const diff = now - startDate;
 
-            // Calcular años y meses de forma más precisa
             let months = (now.getFullYear() - startDate.getFullYear()) * 12;
             months += now.getMonth() - startDate.getMonth();
 
-            // Ajustar si el día actual es menor que el día de inicio
             if (now.getDate() < startDate.getDate()) {
                 months--;
             }
 
-            // Calcular días restantes
             const tempDate = new Date(startDate);
             tempDate.setMonth(tempDate.getMonth() + months);
 
             let days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
 
-            // Si los días son negativos (por ajuste de meses)
             if (days < 0) {
                 months--;
                 tempDate.setMonth(tempDate.getMonth() - 1);
                 days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
             }
 
-            // Calcular horas restantes
             const hours = Math.floor((now - tempDate - days * 24 * 60 * 60 * 1000) / (1000 * 60 * 60));
 
             document.getElementById('months').textContent = months;
@@ -348,9 +335,8 @@
         }
 
         updateTimeTogether();
-        setInterval(updateTimeTogether, 3600000); // Actualizar cada hora
+        setInterval(updateTimeTogether, 3600000);
 
-        // Collage de imágenes de fondo (discreto)
         const imagenes = [
             "assets/foto21.jpg",
             "assets/foto22.jpg",
